@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 //Ant 디자인 Css 프레임워크
-import "antd/dist/antd.less";
+import "antd/dist/antd.min.css";
 import { applyMiddleware, createStore } from "redux";
 import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
