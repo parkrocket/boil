@@ -43,6 +43,9 @@ app.use(cookieParser());
 //회원 관련 라우터
 app.use("/api/users", require("./routes/users"));
 
+//비디오 업로드 라우터
+app.use("/api/video", require("./routes/video"));
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {

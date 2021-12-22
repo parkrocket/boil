@@ -9,6 +9,7 @@ import Auth from "../hoc/auth.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer";
 import VideoUploadPage from "./views/VideoUploadPage/VideoUploadPage";
+import VideoDetailPage from "./views/VideoDetailPage/VideoDetailPage";
 
 function App() {
   // null => 아무나 출입 가능
@@ -24,6 +25,10 @@ function App() {
             <Route path="/login" element={Auth(LoginPage, false)} />
             <Route path="/register" element={Auth(RegisterPage, false)} />
             <Route path="/video/upload" element={Auth(VideoUploadPage, true)} />
+            <Route
+              path="/video/:videoId"
+              element={Auth(VideoDetailPage, null)}
+            />
             <Route path="/admin" element={Auth(Admin, true, true)} />
           </Routes>
         </div>
