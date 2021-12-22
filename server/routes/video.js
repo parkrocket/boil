@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Video } = require("../models/Video");
+const { Subscriber } = require("../models/Subscriber");
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
 
@@ -64,6 +65,27 @@ router.get("/getVideos", (req, res) => {
     });
 });
 
+router.post("/getSubscriptionVideos", (req, res) => {
+  //구독한 비디오 리스트 가져오기
+  Subscriber.find({ userFrom: req.body.userFrom }).exec(
+    (err, subscriberInfo) => {
+      if (err) return res.status(400).send(err);
+
+      let subscribedUser = [];
+      subscriberInfo.map((subscriber, i) => {
+        subscribedUser.push(subscriber.userTo);
+      });
+
+      Video.find({ writer: { $in: subscribedUser } })
+        .populate("writer")
+        .exec((err, videos) => {
+          if (err) return res.status(400).send(err);
+          return res.status(200).json({ success: true, videos });
+        });
+    }
+  );
+});
+
 router.post("/getVideoDetail", (req, res) => {
   //비디오 글을 저장한다.
   //console.log(req.body.videoId);
@@ -112,7 +134,7 @@ router.post("/thumbnail", (req, res) => {
     .screenshot({
       count: 1,
       folder: "uploads/thumbnails",
-      size: "240x240",
+      size: "370x370",
       filename: "thumbnail-%b.png",
     });
 });
