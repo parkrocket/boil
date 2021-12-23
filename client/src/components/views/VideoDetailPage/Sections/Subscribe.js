@@ -5,7 +5,6 @@ function Subscribe(props) {
   const [SubscribeNumber, setSubscribeNumber] = useState(0);
   const [Subscribed, setSubscribed] = useState(false);
   const userId = localStorage.getItem("userId");
-  console.log(userId);
 
   useEffect(() => {
     const variable = { userTo: props.userTo };
@@ -35,7 +34,6 @@ function Subscribe(props) {
       userTo: props.userTo,
       userFrom: props.userFrom,
     };
-    console.log(subscribedVariable);
 
     if (Subscribed) {
       //이미구독중일때

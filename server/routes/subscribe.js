@@ -36,7 +36,7 @@ router.post("/subscribed", (req, res) => {
 });
 
 router.post("/unSubscribe", (req, res) => {
-  //구독자 취소
+  //구독 취소
   Subscriber.findOneAndDelete({
     userTo: req.body.userTo,
     userFrom: req.body.userFrom,
@@ -47,7 +47,7 @@ router.post("/unSubscribe", (req, res) => {
 });
 
 router.post("/Subscribe", (req, res) => {
-  //구독자 취소
+  //구독
 
   const subscribe = new Subscriber(req.body);
 

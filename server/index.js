@@ -49,6 +49,9 @@ app.use("/api/video", require("./routes/video"));
 //구독 라우터
 app.use("/api/subscribe", require("./routes/subscribe"));
 
+//코멘트 라우터
+app.use("/api/comment", require("./routes/comment"));
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
