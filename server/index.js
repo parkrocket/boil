@@ -52,6 +52,9 @@ app.use("/api/subscribe", require("./routes/subscribe"));
 //코멘트 라우터
 app.use("/api/comment", require("./routes/comment"));
 
+//좋아요 싫어요 라우터
+app.use("/api/like", require("./routes/likedislikes"));
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {

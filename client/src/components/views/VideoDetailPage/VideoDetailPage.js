@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
 import Comment from "./Sections/Comment";
+import LikeDislikes from "./Sections/LikeDislikes";
 
 const VideoDetailPage = (props) => {
   const videoId = useParams().videoId;
@@ -14,13 +15,16 @@ const VideoDetailPage = (props) => {
   const [Comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios.post("/api/video/getVideoDetail", variable).then((response) => {
-      if (response.data.success) {
-        setVideoDetail(response.data.videoDetail);
-      } else {
-        alert("비디오 로딩 실패");
-      }
-    });
+    axios.post("/api/video/getVideoDetail", variable).then(
+      (response) => {
+        if (response.data.success) {
+          setVideoDetail(response.data.videoDetail);
+        } else {
+          alert("비디오 로딩 실패");
+        }
+      },
+      [videoId]
+    );
 
     axios.post("/api/comment/getComments", variable).then((response) => {
       if (response.data.success) {
@@ -54,7 +58,9 @@ const VideoDetailPage = (props) => {
               controls
             ></video>
 
-            <List.Item actions={[subscribeButton]}>
+            <List.Item
+              actions={[<LikeDislikes video></LikeDislikes>, subscribeButton]}
+            >
               <List.Item.Meta
                 avatar={<Avatar src={VideoDetail.writer.image}></Avatar>}
                 title={VideoDetail.writer.name}
