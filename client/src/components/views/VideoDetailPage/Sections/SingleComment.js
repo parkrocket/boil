@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Comment, Avatar, Button, Input } from "antd";
+import { Comment, Avatar } from "antd";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";

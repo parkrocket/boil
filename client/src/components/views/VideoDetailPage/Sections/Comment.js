@@ -67,6 +67,8 @@ function Comment(props) {
                 ></ReplyComment>
               </React.Fragment>
             );
+          } else {
+            return "";
           }
         })}
 

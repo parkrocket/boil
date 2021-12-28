@@ -40,13 +40,17 @@ function RightMenu(props) {
         <Menu.Item key="profile">
           <Link to="/mypage">
             <Avatar
-              src={`http://localhost:5000/${user.userData.image}`}
+              src={
+                user.userData.image
+                  ? `http://localhost:5000/${user.userData.image}`
+                  : ""
+              }
             ></Avatar>
             <span>{user.userData.name}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="upload">
-          <Link to="/video/upload">Video</Link>
+          <Link to="/board/upload">글쓰기</Link>
         </Menu.Item>
 
         <Menu.Item key="logout">

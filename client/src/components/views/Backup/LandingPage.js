@@ -7,24 +7,18 @@ import { Link } from "react-router-dom";
 const { Title } = Typography;
 const { Meta } = Card;
 
-function SubscriptionPage() {
+function LandingPage() {
   const [Video, setVideo] = useState([]);
-  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    const subscriptionVariable = {
-      userFrom: userId,
-    };
-    axios
-      .post("/api/video/getSubscriptionVideos", subscriptionVariable)
-      .then((response) => {
-        if (response.data.success) {
-          setVideo(response.data.videos);
-        } else {
-          alert("비디오 리스트 로딩 실패");
-        }
-      });
-  }, [userId]);
+    axios.get("/api/video/getVideos").then((response) => {
+      if (response.data.success) {
+        setVideo(response.data.videos);
+      } else {
+        alert("비디오 리스트 로딩 실패");
+      }
+    });
+  }, []);
 
   const renderCards = Video.map((video, index) => {
     const minutes = Math.floor(video.duration / 60);
@@ -48,13 +42,21 @@ function SubscriptionPage() {
         </Link>
         <div>
           <span style={{ marginLeft: "3ren", float: "left" }}>
-            {video.views} views{" "}
-          </span>{" "}
+            {video.views} views
+          </span>
           - <span>{moment(video.createdAt).format("YYYY MM DD HH:mm:ss")}</span>
         </div>
         <br />
         <Meta
-          avatar={<Avatar src={video.writer.image}></Avatar>}
+          avatar={
+            <Avatar
+              src={
+                video.writer.image
+                  ? `http://localhost:5000/${video.writer.image}`
+                  : ""
+              }
+            ></Avatar>
+          }
           title={video.title}
           description=""
         ></Meta>
@@ -65,11 +67,11 @@ function SubscriptionPage() {
 
   return (
     <div style={{ width: "85%", margin: "3rem auto" }}>
-      <Title level={2}> Subscription</Title>
+      <Title level={2}> Recommended</Title>
       <hr />
       <Row gutter={[32, 16]}>{renderCards}</Row>
     </div>
   );
 }
 
-export default SubscriptionPage;
+export default LandingPage;

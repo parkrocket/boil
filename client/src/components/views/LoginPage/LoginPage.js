@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_actions";
 import { useNavigate } from "react-router";
@@ -36,7 +36,7 @@ function LoginPage() {
     });
   };
 
-  const initializeNaverLogin = () => {
+  const initializeNaverLogin = useCallback(() => {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: CLIENTID,
       callbackUrl: CALLBACKURL,
@@ -44,11 +44,11 @@ function LoginPage() {
       loginButton: { color: "white", type: 1, height: "47" }, //버튼의 스타일, 타입, 크기를 지정
     });
     naverLogin.init();
-  };
+  }, []);
 
   useEffect(() => {
     initializeNaverLogin();
-  }, []);
+  }, [initializeNaverLogin]);
 
   return (
     <div

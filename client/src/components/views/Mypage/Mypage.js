@@ -1,8 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Dropzone from "react-dropzone";
-import { loginUser } from "../../../_actions/user_actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 function Mypage() {
@@ -11,7 +10,6 @@ function Mypage() {
   const [NickName, setNickName] = useState(user.userData.name);
   const [FilePath, setFilePath] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   //닉네임 핸들러

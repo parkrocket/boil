@@ -25,7 +25,6 @@ function Naver() {
   axios.post("/api/users/naver", data).then((response) => {
     console.log(response.data);
     if (response.data.success) {
-      console.log(response.data);
     } else if (response.data.loginSuccess) {
       navigate("/");
     } else {

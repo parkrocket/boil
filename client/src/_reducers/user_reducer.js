@@ -5,7 +5,7 @@ import {
   LOGOUT_USER,
 } from "../_actions/types";
 
-export default function (state = {}, action) {
+export default function reduce(state = {}, action) {
   switch (action.type) {
     case LOGIN_USER:
       return { ...state, loginSucess: action.payload };

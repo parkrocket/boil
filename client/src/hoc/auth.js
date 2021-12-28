@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "../_actions/user_actions.js";
 import { useNavigate } from "react-router";
 
-export default function (SpecificComponent, option, adminRoute = null) {
+export default function Auth(SpecificComponent, option, adminRoute = null) {
   function AuthenticationCheck() {
     // null => 아무나 출입 가능
     // true => 로그인한 유저만 출입가능
@@ -32,7 +32,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
           }
         }
       });
-    }, []);
+    }, [dispatch, navigate]);
     return <SpecificComponent></SpecificComponent>;
   }
   return (

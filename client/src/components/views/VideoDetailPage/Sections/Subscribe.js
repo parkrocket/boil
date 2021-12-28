@@ -27,7 +27,7 @@ function Subscribe(props) {
           alert("구독자 정보를 가져오는데 실패했습니다.");
         }
       });
-  }, []);
+  }, [props.userTo, userId]);
 
   const onSubscribe = () => {
     const subscribedVariable = {
