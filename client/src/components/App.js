@@ -11,6 +11,8 @@ import Footer from "./views/Footer/Footer";
 import VideoUploadPage from "./views/VideoUploadPage/VideoUploadPage";
 import VideoDetailPage from "./views/VideoDetailPage/VideoDetailPage";
 import SubscriptionPage from "./views/SubscriptionPage/SubscriptionPage";
+import Mypage from "./views/Mypage/Mypage";
+import Naver from "./views/LoginPage/Social/Naver";
 
 function App() {
   // null => 아무나 출입 가능
@@ -34,6 +36,10 @@ function App() {
               path="/subscription"
               element={Auth(SubscriptionPage, true)}
             />
+            <Route path="/mypage" element={Auth(Mypage, true)} />
+
+            <Route path="/auth/naver" element={Auth(Naver, false)} />
+
             <Route path="/admin" element={Auth(Admin, true, true)} />
           </Routes>
         </div>

@@ -43,13 +43,21 @@ function LandingPage() {
         </Link>
         <div>
           <span style={{ marginLeft: "3ren", float: "left" }}>
-            {video.views} views{" "}
-          </span>{" "}
+            {video.views} views
+          </span>
           - <span>{moment(video.createdAt).format("YYYY MM DD HH:mm:ss")}</span>
         </div>
         <br />
         <Meta
-          avatar={<Avatar src={video.writer.image}></Avatar>}
+          avatar={
+            <Avatar
+              src={
+                video.writer.image
+                  ? `http://localhost:5000/${video.writer.image}`
+                  : ""
+              }
+            ></Avatar>
+          }
           title={video.title}
           description=""
         ></Meta>

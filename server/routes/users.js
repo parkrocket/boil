@@ -2,6 +2,31 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
+const multer = require("multer");
+const ffmpeg = require("fluent-ffmpeg");
+const sharp = require("sharp");
+const axios = require("axios");
+
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/profile/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype == "image/jpeg") {
+    cb(null, true);
+  } else {
+    cb({ msg: "업로드 불가능한 확장자입니다." }, false);
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter }).single(
+  "file"
+);
 
 //=================================
 //             User
@@ -79,6 +104,106 @@ router.get("/logout", auth, (req, res) => {
     if (err) return res.json({ success: false, err });
 
     return res.status(200).send({ success: true });
+  });
+});
+
+//프로필  이미지 업로드
+router.post("/uploadProfile", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    try {
+      sharp(res.req.file.path)
+        .resize(50, 50)
+        .withMetadata()
+        .toFile(
+          `uploads/profile/thumbnails/${res.req.file.filename}`,
+          (err, info) => {
+            if (err) {
+              return res.json({ success: false, err });
+            }
+            return res.json({
+              success: true,
+              url: res.req.file.path,
+              thumbnailPath: `uploads/profile/thumbnails/${res.req.file.filename}`,
+              fileName: res.req.file.filename,
+            });
+          }
+        );
+    } catch (err) {
+      console.log(err);
+      return res.json({ success: false, err });
+    }
+  });
+});
+
+router.post("/updateUser", (req, res) => {
+  console.log(req.body);
+
+  const data = {
+    image: req.body.profileImagePath,
+    name: req.body.name,
+  };
+
+  User.findOneAndUpdate({ _id: req.body.userId }, data, (err, user) => {
+    if (err) return res.json({ success: false, err });
+
+    return res.status(200).send({ success: true, user });
+  });
+});
+
+router.post("/naver", function (req, res) {
+  code = req.body.token;
+  state = req.body.state;
+
+  api_url = `https://openapi.naver.com/v1/nid/me`;
+  const data = {};
+  const config = {
+    headers: {
+      Authorization: `bearer ${code}`,
+      "X-Naver-Client-Id": req.body.clientId,
+      "X-Naver-Client-Secret": req.body.clientSecret,
+    },
+  };
+
+  axios.post(api_url, data, config).then((response) => {
+    User.findOne({ naverId: response.data.response.id }, (err, user) => {
+      if (!user) {
+        const userData = {
+          name: response.data.response.nickname,
+          email: response.data.response.email,
+          naverId: response.data.response.id,
+        };
+
+        const user = new User(userData);
+
+        //회원가입
+        user.save((err, user) => {
+          if (err) return res.json({ success: false, err });
+          //회원가입 완료후 로그인
+          user.generateToken((err, user) => {
+            if (err) return res.status(400).send(err);
+
+            res
+              .cookie("x_auth", user.token)
+              .status(200)
+              .json({ loginSuccess: true, userId: user._id });
+          });
+        });
+      } else {
+        // 이미 회원일 경우 로그인
+        user.generateToken((err, user) => {
+          if (err) return res.status(400).send(err);
+
+          res
+            .cookie("x_auth", user.token)
+            .status(200)
+            .json({ loginSuccess: true, userId: user._id });
+          //토큰을 저장한다.
+        });
+      }
+    });
   });
 });
 

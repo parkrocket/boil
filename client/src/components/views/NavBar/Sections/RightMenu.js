@@ -2,6 +2,7 @@
 import React from "react";
 import { Menu } from "antd";
 import axios from "axios";
+import { Avatar } from "antd";
 import { USER_SERVER } from "../../../Config";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -10,7 +11,7 @@ import { Link } from "react-router-dom";
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
-
+  console.log();
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.status === 200) {
@@ -33,17 +34,28 @@ function RightMenu(props) {
         </Menu.Item>
       </Menu>
     );
-  } else {
+  } else if (user.userData) {
     return (
       <Menu mode={props.mode}>
+        <Menu.Item key="profile">
+          <Link to="/mypage">
+            <Avatar
+              src={`http://localhost:5000/${user.userData.image}`}
+            ></Avatar>
+            <span>{user.userData.name}</span>
+          </Link>
+        </Menu.Item>
         <Menu.Item key="upload">
           <Link to="/video/upload">Video</Link>
         </Menu.Item>
+
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>
       </Menu>
     );
+  } else {
+    return <div>...Loading</div>;
   }
 }
 

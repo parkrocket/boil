@@ -34,6 +34,9 @@ const userSchema = mongoose.Schema({
   tokenExp: {
     type: Number,
   },
+  naverId: {
+    type: String,
+  },
 });
 
 userSchema.pre("save", function (next) {
