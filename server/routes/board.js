@@ -45,6 +45,7 @@ router.post("/uploadBoard", (req, res) => {
 });
 
 router.get("/getBoardList", (req, res) => {
+  console.log("asdf");
   //글 목록 불러오기
   Board.find()
     .populate("writer")

@@ -60,7 +60,7 @@ app.use("/api/board", require("./routes/board"));
 
 app.use("/api/board/editorimage", require("./routes/editorImage"));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

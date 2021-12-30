@@ -34,82 +34,94 @@ function LikeDislikes(props) {
   }
 
   useEffect(() => {
-    axios.post("/api/like/getLikes", data).then((response) => {
-      if (response.data.success) {
-        setLikes(response.data.likes.length);
-        if (response.data.myLikes.length) {
-          setLikeAction("liked");
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/like/getLikes`, data)
+      .then((response) => {
+        if (response.data.success) {
+          setLikes(response.data.likes.length);
+          if (response.data.myLikes.length) {
+            setLikeAction("liked");
+          } else {
+            setLikeAction(null);
+          }
         } else {
-          setLikeAction(null);
+          alert("좋아요 데이터 가져오기 오류");
         }
-      } else {
-        alert("좋아요 데이터 가져오기 오류");
-      }
-    });
-    axios.post("/api/like/getDisLikes", data).then((response) => {
-      if (response.data.success) {
-        setDisLikes(response.data.dislikes.length);
-        if (response.data.myDisLikes.length) {
-          setDisLikeAction("disliked");
+      });
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/like/getDisLikes`, data)
+      .then((response) => {
+        if (response.data.success) {
+          setDisLikes(response.data.dislikes.length);
+          if (response.data.myDisLikes.length) {
+            setDisLikeAction("disliked");
+          } else {
+            setDisLikeAction(null);
+          }
         } else {
-          setDisLikeAction(null);
+          alert("싫어요 데이터 가져오기 오류");
         }
-      } else {
-        alert("싫어요 데이터 가져오기 오류");
-      }
-    });
+      });
   }, [data, user]);
 
   const onLike = () => {
     if (LikeAction === null) {
-      axios.post("/api/like/upLike", data).then((response) => {
-        if (response.data.success) {
-          setLikes(Likes + 1);
-          setLikeAction("liked");
-          if (DisLikeAction !== null) {
-            setDisLikes(DisLikes - 1);
-            setDisLikeAction(null);
+      axios
+        .post(`${process.env.REACT_APP_DB_HOST}/api/like/upLike`, data)
+        .then((response) => {
+          if (response.data.success) {
+            setLikes(Likes + 1);
+            setLikeAction("liked");
+            if (DisLikeAction !== null) {
+              setDisLikes(DisLikes - 1);
+              setDisLikeAction(null);
+            }
+          } else {
+            alert("좋아요 실패");
           }
-        } else {
-          alert("좋아요 실패");
-        }
-      });
+        });
     } else {
-      axios.post("/api/like/unLike", data).then((response) => {
-        if (response.data.success) {
-          setLikes(Likes - 1);
-          setLikeAction(null);
-        } else {
-          alert("좋아요 취소 실패");
-        }
-      });
+      axios
+        .post(`${process.env.REACT_APP_DB_HOST}/api/like/unLike`, data)
+        .then((response) => {
+          if (response.data.success) {
+            setLikes(Likes - 1);
+            setLikeAction(null);
+          } else {
+            alert("좋아요 취소 실패");
+          }
+        });
     }
   };
 
   const onDisLike = () => {
     if (DisLikeAction === null) {
-      axios.post("/api/like/upDisLike", data).then((response) => {
-        if (response.data.success) {
-          console.log(response.data);
-          setDisLikes(DisLikes + 1);
-          setDisLikeAction("disliked");
-          if (LikeAction !== null) {
-            setLikes(Likes - 1);
-            setLikeAction(null);
+      axios
+        .post(`${process.env.REACT_APP_DB_HOST}/api/like/upDisLike`, data)
+        .then((response) => {
+          if (response.data.success) {
+            console.log(response.data);
+            setDisLikes(DisLikes + 1);
+            setDisLikeAction("disliked");
+            if (LikeAction !== null) {
+              setLikes(Likes - 1);
+              setLikeAction(null);
+            }
+          } else {
+            alert("싫어요 실패");
           }
-        } else {
-          alert("싫어요 실패");
-        }
-      });
+        });
     } else {
-      axios.post("/api/like/unDisLike", data).then((response) => {
-        if (response.data.success) {
-          setDisLikes(DisLikes - 1);
-          setDisLikeAction(null);
-        } else {
-          alert("싫어요 취소 실패");
-        }
-      });
+      axios
+        .post(`${process.env.REACT_APP_DB_HOST}/api/like/unDisLike`, data)
+        .then((response) => {
+          if (response.data.success) {
+            setDisLikes(DisLikes - 1);
+            setDisLikeAction(null);
+          } else {
+            alert("싫어요 취소 실패");
+          }
+        });
     }
   };
 

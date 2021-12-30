@@ -41,7 +41,7 @@ router.post("/uploadfiles", upload, (req, res) => {
   console.log("전달받은 파일", req.file);
   console.log("저장된 파일의 이름", req.file.filename);
 
-  const IMG_URL = `http://localhost:5000/uploads/board/${req.file.filename}`;
+  const IMG_URL = `http://${req.hostname}:4000/uploads/board/${req.file.filename}`;
 
   res.json({ url: IMG_URL });
 });

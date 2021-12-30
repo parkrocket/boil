@@ -62,27 +62,38 @@ function VideoUploadPage() {
     formData.append("file", files[0]);
 
     console.log(files);
-    axios.post("/api/video/uploadfiles", formData, config).then((response) => {
-      if (response.data.success) {
-        let variable = {
-          url: response.data.url,
-          fileName: response.data.fileName,
-        };
+    axios
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/video/uploadfiles`,
+        formData,
+        config
+      )
+      .then((response) => {
+        if (response.data.success) {
+          let variable = {
+            url: response.data.url,
+            fileName: response.data.fileName,
+          };
 
-        setFilePath(response.data.url);
+          setFilePath(response.data.url);
 
-        axios.post("/api/video/thumbnail", variable).then((response) => {
-          if (response.data.success) {
-            setDuration(response.data.fileDuration);
-            seThumbnailPath(response.data.url);
-          } else {
-            alert("썸네일 생성 실패");
-          }
-        });
-      } else {
-        alert("비디오 업로드 실패!");
-      }
-    });
+          axios
+            .post(
+              `${process.env.REACT_APP_DB_HOST}/api/video/thumbnail`,
+              variable
+            )
+            .then((response) => {
+              if (response.data.success) {
+                setDuration(response.data.fileDuration);
+                seThumbnailPath(response.data.url);
+              } else {
+                alert("썸네일 생성 실패");
+              }
+            });
+        } else {
+          alert("비디오 업로드 실패!");
+        }
+      });
   };
 
   const onSubmit = (e) => {
@@ -99,17 +110,19 @@ function VideoUploadPage() {
       thumbnail: ThumbnailPath,
     };
 
-    axios.post("/api/video/uploadVideo", variables).then((response) => {
-      if (response.data.success) {
-        message.success("업로드를 성공했습니다.");
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/video/uploadVideo`, variables)
+      .then((response) => {
+        if (response.data.success) {
+          message.success("업로드를 성공했습니다.");
 
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      } else {
-        alert("비디오 업로드에 실패했습니다.");
-      }
-    });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          alert("비디오 업로드에 실패했습니다.");
+        }
+      });
   };
 
   return (
@@ -142,7 +155,7 @@ function VideoUploadPage() {
           {ThumbnailPath && (
             <div>
               <img
-                src={`http://localhost:5000/${ThumbnailPath}`}
+                src={`${process.env.REACT_APP_SERVER_HOST}/${ThumbnailPath}`}
                 alt="thumbnail"
               />
             </div>

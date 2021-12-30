@@ -63,17 +63,19 @@ function BoardUploadPage() {
     };
     console.log(variables);
 
-    axios.post("/api/board/uploadBoard", variables).then((response) => {
-      if (response.data.success) {
-        message.success("글쓰기를 성공했습니다.");
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/board/uploadBoard`, variables)
+      .then((response) => {
+        if (response.data.success) {
+          message.success("글쓰기를 성공했습니다.");
 
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      } else {
-        alert("글쓰기에 실패했습니다.");
-      }
-    });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          alert("글쓰기에 실패했습니다.");
+        }
+      });
   };
 
   // 이미지 처리를 하는 핸들러
@@ -97,7 +99,7 @@ function BoardUploadPage() {
       // 백엔드 multer라우터에 이미지를 보낸다.
       try {
         const result = await axios.post(
-          "http://localhost:5000/api/board/editorimage/uploadfiles",
+          `${process.env.REACT_APP_SERVER_HOST}/api/board/editorimage/uploadfiles`,
           formData
         );
         const IMG_URL = result.data.url;

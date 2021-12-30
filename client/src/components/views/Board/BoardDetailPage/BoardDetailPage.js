@@ -8,13 +8,15 @@ function BoardDetailPage() {
   const [BoardDetail, setBoardDetail] = useState([]);
 
   useEffect(() => {
-    axios.post("/api/board/getBoardDetail", data).then((response) => {
-      if (response.data.success) {
-        setBoardDetail(response.data.board);
-      } else {
-        alert("게시글 로딩 실패");
-      }
-    });
+    axios
+      .post(process.env.REACT_APP_DB_HOST + "/api/board/getBoardDetail", data)
+      .then((response) => {
+        if (response.data.success) {
+          setBoardDetail(response.data.board);
+        } else {
+          alert("게시글 로딩 실패");
+        }
+      });
   }, []);
 
   return (

@@ -7,15 +7,18 @@ import { USER_SERVER } from "../../../Config";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
+  const [cookies, setCookie, removeCookie] = useCookies(["x_auth"]);
   const navigate = useNavigate();
   console.log();
   const logoutHandler = () => {
-    axios.get(`${USER_SERVER}/logout`).then((response) => {
+    axios.post(`${USER_SERVER}/logout`, cookies).then((response) => {
       if (response.status === 200) {
         localStorage.removeItem("userId");
+        removeCookie("x_auth");
         navigate("/login");
       } else {
         alert("Log Out Failed");
@@ -42,7 +45,7 @@ function RightMenu(props) {
             <Avatar
               src={
                 user.userData.image
-                  ? `http://localhost:5000/${user.userData.image}`
+                  ? `${process.env.REACT_APP_SERVER_HOST}/${user.userData.image}`
                   : ""
               }
             ></Avatar>

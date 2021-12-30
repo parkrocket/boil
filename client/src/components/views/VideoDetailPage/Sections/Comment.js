@@ -29,14 +29,16 @@ function Comment(props) {
       postId: video.videoId,
     };
 
-    axios.post("/api/comment/saveComment", data).then((response) => {
-      if (response.data.success) {
-        setText("");
-        props.refreshComment(response.data.result);
-      } else {
-        alert("코멘트 작성 실패");
-      }
-    });
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/comment/saveComment`, data)
+      .then((response) => {
+        if (response.data.success) {
+          setText("");
+          props.refreshComment(response.data.result);
+        } else {
+          alert("코멘트 작성 실패");
+        }
+      });
   };
 
   return (

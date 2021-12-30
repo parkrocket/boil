@@ -8,18 +8,26 @@ function Subscribe(props) {
 
   useEffect(() => {
     const variable = { userTo: props.userTo };
-    axios.post("/api/subscribe/subscribeNumber", variable).then((response) => {
-      if (response.data.success) {
-        setSubscribeNumber(response.data.subscribeNumber);
-      } else {
-        alert("구독자 정보를 가져오는데 실패했습니다.");
-      }
-    });
+    axios
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/subscribe/subscribeNumber`,
+        variable
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setSubscribeNumber(response.data.subscribeNumber);
+        } else {
+          alert("구독자 정보를 가져오는데 실패했습니다.");
+        }
+      });
 
     const subscribeVariable = { userTo: props.userTo, userFrom: userId };
 
     axios
-      .post("/api/subscribe/subscribed", subscribeVariable)
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/subscribe/subscribed`,
+        subscribeVariable
+      )
       .then((response) => {
         if (response.data.success) {
           setSubscribed(response.data.subscribed);
@@ -38,7 +46,10 @@ function Subscribe(props) {
     if (Subscribed) {
       //이미구독중일때
       axios
-        .post("/api/subscribe/unSubscribe", subscribedVariable)
+        .post(
+          `${process.env.REACT_APP_DB_HOST}/api/subscribe/unSubscribe`,
+          subscribedVariable
+        )
         .then((response) => {
           if (response.data.success) {
             setSubscribeNumber(SubscribeNumber - 1);
@@ -50,7 +61,10 @@ function Subscribe(props) {
     } else {
       //구독중이 아닐때
       axios
-        .post("/api/subscribe/Subscribe", subscribedVariable)
+        .post(
+          `${process.env.REACT_APP_DB_HOST}/api/subscribe/Subscribe`,
+          subscribedVariable
+        )
         .then((response) => {
           if (response.data.success) {
             setSubscribeNumber(SubscribeNumber + 1);

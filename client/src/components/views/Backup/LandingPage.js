@@ -3,6 +3,7 @@ import { Card, Avatar, Col, Typography, Row } from "antd";
 import axios from "axios";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { VIDEO_SERVER } from "../../Config";
 
 const { Title } = Typography;
 const { Meta } = Card;
@@ -11,7 +12,7 @@ function LandingPage() {
   const [Video, setVideo] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/video/getVideos").then((response) => {
+    axios.get(`${VIDEO_SERVER}/getVideos`).then((response) => {
       if (response.data.success) {
         setVideo(response.data.videos);
       } else {
@@ -30,7 +31,7 @@ function LandingPage() {
           <div style={{ position: "relative" }}>
             <img
               style={{ width: "100%" }}
-              src={`http://localhost:5000/${video.thumbnail}`}
+              src={`${REACT_APP_SERVER_HOST}/${video.thumbnail}`}
               alt="thumbnail"
             />
             <div className="duration">
@@ -52,7 +53,7 @@ function LandingPage() {
             <Avatar
               src={
                 video.writer.image
-                  ? `http://localhost:5000/${video.writer.image}`
+                  ? `${REACT_APP_SERVER_HOST}/${video.writer.image}`
                   : ""
               }
             ></Avatar>

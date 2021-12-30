@@ -6,13 +6,15 @@ function SideVideo() {
   const [SideVideos, setSideVideos] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/video/getVideos").then((response) => {
-      if (response.data.success) {
-        setSideVideos(response.data.videos);
-      } else {
-        alert("비디오 리스트 로딩 실패");
-      }
-    });
+    axios
+      .get(`${process.env.REACT_APP_DB_HOST}/api/video/getVideos`)
+      .then((response) => {
+        if (response.data.success) {
+          setSideVideos(response.data.videos);
+        } else {
+          alert("비디오 리스트 로딩 실패");
+        }
+      });
   }, []);
 
   const renderSideVideo = SideVideos.map((video, index) => {
@@ -28,7 +30,7 @@ function SideVideo() {
           <Link to={`/video/${video._id}`}>
             <img
               style={{ width: "100%", height: "100%" }}
-              src={`http://localhost:5000/${video.thumbnail}`}
+              src={`${process.env.REACT_APP_SERVER_HOST}/${video.thumbnail}`}
               alt="thumbnail"
             ></img>
           </Link>

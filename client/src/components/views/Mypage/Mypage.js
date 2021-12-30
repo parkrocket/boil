@@ -26,13 +26,15 @@ function Mypage() {
       filePath: FilePath,
     };
 
-    axios.post("/api/users/updateUser", data).then((response) => {
-      if (response.data.success) {
-        navigate("/");
-      } else {
-        alert("서브밋 실패!");
-      }
-    });
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/users/updateUser`, data)
+      .then((response) => {
+        if (response.data.success) {
+          navigate("/");
+        } else {
+          alert("서브밋 실패!");
+        }
+      });
   };
 
   //파일업로드
@@ -44,7 +46,11 @@ function Mypage() {
     formData.append("file", files[0]);
 
     axios
-      .post("/api/users/uploadProfile", formData, config)
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/users/uploadProfile`,
+        formData,
+        config
+      )
       .then((response) => {
         if (response.data.success) {
           console.log(response.data);
@@ -99,7 +105,7 @@ function Mypage() {
                     }}
                   >
                     <img
-                      src={`http://localhost:5000/${ProfileImagePath}`}
+                      src={`${process.env.REACT_APP_SERVER_HOST}/${ProfileImagePath}`}
                       alt="thumbnail"
                       style={{ width: "100%" }}
                     />

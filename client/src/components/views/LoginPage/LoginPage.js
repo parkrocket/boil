@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_actions";
 import { useNavigate } from "react-router";
 import { CLIENTID, CALLBACKURL } from "../../../config/SocialConfig";
+import { useCookies } from "react-cookie";
 
 function LoginPage() {
   let navigate = useNavigate();
@@ -10,6 +11,7 @@ function LoginPage() {
   const dispatch = useDispatch();
   const { naver } = window;
 
+  const [cookies, setCookie, removeCookie] = useCookies(["x_auth"]);
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
@@ -28,6 +30,8 @@ function LoginPage() {
 
     dispatch(loginUser(body)).then((response) => {
       if (response.payload.loginSuccess) {
+        console.log(response.payload);
+        setCookie("x_auth", response.payload.userToken);
         window.localStorage.setItem("userId", response.payload.userId);
         navigate("/");
       } else {

@@ -24,9 +24,9 @@ export function regiterUser(dataTosubmit) {
   };
 }
 
-export function auth() {
+export function auth(dataTosubmit) {
   const request = axios
-    .get(`${USER_SERVER}/auth`)
+    .post(`${USER_SERVER}/auth`, dataTosubmit)
     .then((response) => response.data);
 
   return {

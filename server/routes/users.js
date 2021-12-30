@@ -33,7 +33,8 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).single(
 //=================================
 
 //인증
-router.get("/auth", auth, (req, res) => {
+
+router.post("/auth", auth, (req, res) => {
   // 여기까지 미들웨어를 통과해 왔다는 이야기는 인증이 TRUE 라는 말
 
   res.status(200).json({
@@ -91,7 +92,11 @@ router.post("/login", (req, res) => {
         res
           .cookie("x_auth", user.token)
           .status(200)
-          .json({ loginSuccess: true, userId: user._id });
+          .json({
+            loginSuccess: true,
+            userId: user._id,
+            userToken: user.token,
+          });
         //토큰을 저장한다.
       });
     });
@@ -99,7 +104,7 @@ router.post("/login", (req, res) => {
 });
 
 //로그아웃
-router.get("/logout", auth, (req, res) => {
+router.post("/logout", auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
 
@@ -185,10 +190,11 @@ router.post("/naver", function (req, res) {
           user.generateToken((err, user) => {
             if (err) return res.status(400).send(err);
 
-            res
-              .cookie("x_auth", user.token)
-              .status(200)
-              .json({ loginSuccess: true, userId: user._id });
+            res.cookie("x_auth", user.token).status(200).json({
+              loginSuccess: true,
+              userId: user._id,
+              userToken: user.token,
+            });
           });
         });
       } else {
@@ -196,10 +202,11 @@ router.post("/naver", function (req, res) {
         user.generateToken((err, user) => {
           if (err) return res.status(400).send(err);
 
-          res
-            .cookie("x_auth", user.token)
-            .status(200)
-            .json({ loginSuccess: true, userId: user._id });
+          res.cookie("x_auth", user.token).status(200).json({
+            loginSuccess: true,
+            userId: user._id,
+            userToken: user.token,
+          });
           //토큰을 저장한다.
         });
       }

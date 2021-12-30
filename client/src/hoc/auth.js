@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { auth } from "../_actions/user_actions.js";
 import { useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
 
 export default function Auth(SpecificComponent, option, adminRoute = null) {
   function AuthenticationCheck() {
@@ -10,9 +11,10 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
     // false => 로그인 안한 유저만 출입가능
     let navigate = useNavigate();
     const dispatch = useDispatch();
+    const [cookies, setCookie, removeCookie] = useCookies(["x_auth"]);
 
     useEffect(() => {
-      dispatch(auth()).then((response) => {
+      dispatch(auth(cookies)).then((response) => {
         if (!response.payload.isAuth) {
           // 로그인 하지 않은 상태
           if (option) {

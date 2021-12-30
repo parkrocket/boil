@@ -7,13 +7,15 @@ function BoardListPage() {
   const [BoardList, setBoardList] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/board/getBoardList").then((response) => {
-      if (response.data.success) {
-        setBoardList(response.data.board);
-      } else {
-        alert("글 리스트 로딩 실패");
-      }
-    });
+    axios
+      .get(process.env.REACT_APP_DB_HOST + "/api/board/getBoardList")
+      .then((response) => {
+        if (response.data.success) {
+          setBoardList(response.data.board);
+        } else {
+          alert("글 리스트 로딩 실패");
+        }
+      });
   }, []);
   const render = BoardList.map((board, index) => {
     const text = board.description

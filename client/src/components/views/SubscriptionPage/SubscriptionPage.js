@@ -16,7 +16,10 @@ function SubscriptionPage() {
       userFrom: userId,
     };
     axios
-      .post("/api/video/getSubscriptionVideos", subscriptionVariable)
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/video/getSubscriptionVideos`,
+        subscriptionVariable
+      )
       .then((response) => {
         if (response.data.success) {
           setVideo(response.data.videos);
@@ -36,7 +39,7 @@ function SubscriptionPage() {
           <div style={{ position: "relative" }}>
             <img
               style={{ width: "100%" }}
-              src={`http://localhost:5000/${video.thumbnail}`}
+              src={`${process.env.REACT_APP_SERVER_HOST}/${video.thumbnail}`}
               alt="thumbnail"
             />
             <div className="duration">

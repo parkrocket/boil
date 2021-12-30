@@ -46,15 +46,17 @@ function SingleComment(props) {
       postId: video.videoId,
     };
 
-    axios.post("/api/comment/saveComment", data).then((response) => {
-      if (response.data.success) {
-        setText("");
-        props.refreshComment(response.data.result);
-        setOpenReply(!OpenReply);
-      } else {
-        alert("대댓글 실패!");
-      }
-    });
+    axios
+      .post(`${process.env.REACT_APP_DB_HOST}/api/comment/saveComment`, data)
+      .then((response) => {
+        if (response.data.success) {
+          setText("");
+          props.refreshComment(response.data.result);
+          setOpenReply(!OpenReply);
+        } else {
+          alert("대댓글 실패!");
+        }
+      });
   };
 
   return (
@@ -64,7 +66,7 @@ function SingleComment(props) {
         author={props.comment.writer.name}
         avatar={
           <Avatar
-            src={`http://localhost:5000/${props.comment.writer.image}`}
+            src={`${process.env.REACT_APP_SERVER_HOST}/${props.comment.writer.image}`}
             alt
           />
         }

@@ -15,24 +15,34 @@ const VideoDetailPage = (props) => {
   const [Comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios.post("/api/video/getVideoDetail", variable).then(
-      (response) => {
+    axios
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/video/getVideoDetail`,
+        variable
+      )
+      .then(
+        (response) => {
+          if (response.data.success) {
+            setVideoDetail(response.data.videoDetail);
+          } else {
+            alert("비디오 로딩 실패");
+          }
+        },
+        [videoId]
+      );
+
+    axios
+      .post(
+        `${process.env.REACT_APP_DB_HOST}/api/comment/getComments`,
+        variable
+      )
+      .then((response) => {
         if (response.data.success) {
-          setVideoDetail(response.data.videoDetail);
+          setComments(response.data.comments);
         } else {
           alert("비디오 로딩 실패");
         }
-      },
-      [videoId]
-    );
-
-    axios.post("/api/comment/getComments", variable).then((response) => {
-      if (response.data.success) {
-        setComments(response.data.comments);
-      } else {
-        alert("비디오 로딩 실패");
-      }
-    });
+      });
   }, [videoId]);
 
   const refreshComment = (newComment) => {
@@ -54,7 +64,7 @@ const VideoDetailPage = (props) => {
           <div style={{ width: "100%", padding: "3rem 4rem" }}>
             <video
               style={{ width: "100%", maxHeight: "600px" }}
-              src={`http://localhost:5000/${VideoDetail.filePath}`}
+              src={`${process.env.REACT_APP_SERVER_HOST}/${VideoDetail.filePath}`}
               controls
             ></video>
 
