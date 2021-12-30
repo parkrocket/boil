@@ -10,6 +10,7 @@ const config = require("./config/key");
 const mongoose = require("mongoose");
 const connect = mongoose
   .connect(config.mongoURI, {
+    dbName: "plug",
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -30,6 +31,8 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
+} else {
+  mongoose.set("debug", true);
 }
 
 //application/x-www-form-urlencoded

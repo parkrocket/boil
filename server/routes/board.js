@@ -45,7 +45,7 @@ router.post("/uploadBoard", (req, res) => {
 });
 
 router.get("/getBoardList", (req, res) => {
-  console.log("asdf");
+  console.log(process.env.NODE_ENV);
   //글 목록 불러오기
   Board.find()
     .populate("writer")
@@ -66,6 +66,22 @@ router.post("/getBoardDetail", (req, res) => {
 
       res.status(200).json({ success: true, board });
     });
+});
+
+router.post("/deleteBoard", (req, res) => {
+  //글 삭제
+  Board.findOneAndDelete({ _id: req.body.boardId }).exec((err, board) => {
+    if (err) return res.status(400).send(err);
+
+    //글 리스트 불러오기
+    Board.find()
+      .populate("writer")
+      .exec((err, board) => {
+        if (err) return res.status(400).send(err);
+
+        res.status(200).json({ success: true, board });
+      });
+  });
 });
 
 module.exports = router;
