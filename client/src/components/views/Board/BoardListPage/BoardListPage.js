@@ -9,7 +9,8 @@ import "./BoardListPage.css";
 
 function BoardListPage() {
   const [BoardList, setBoardList] = useState([]);
-  const writer = useSelector((state) => state.user);
+
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     axios
@@ -69,11 +70,19 @@ function BoardListPage() {
     return (
       <List.Item key={index}>
         <List.Item.Meta
-          avatar={<Avatar src={board.writer.image ? board.writer.image : ""} />}
+          avatar={
+            <Avatar
+              src={
+                board.writer.image
+                  ? `${process.env.REACT_APP_SERVER_HOST}/${board.writer.image}`
+                  : ""
+              }
+            />
+          }
           title={<Link to={`/board/view/${board._id}`}>{board.title}</Link>}
           description={text}
         />
-        {writer.userData._id === board.writer._id && (
+        {userId === board.writer._id && (
           <div>
             <span>수정</span>
             <span onClick={DeleteHandler} data-boardid={board._id}>
@@ -94,7 +103,7 @@ function BoardListPage() {
       }}
     >
       <div style={{ width: "70%", marginTop: "50px" }}>
-        <List itemLayout="horizontal">{render}</List>
+        <List itemLayout="horizontal">{BoardList && render}</List>
       </div>
     </div>
   );
