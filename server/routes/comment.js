@@ -25,7 +25,7 @@ router.post("/saveComment", (req, res) => {
 
 router.post("/getComments", (req, res) => {
   //해당 비디오에 모든 코멘트 가져오기
-  Comment.find({ postId: req.body.videoId })
+  Comment.find({ boardId: req.body.boardId })
     .populate("writer")
     .exec((err, comments) => {
       if (err) return res.status(400).json({ success: false, err });

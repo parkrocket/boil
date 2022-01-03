@@ -155,6 +155,18 @@ router.post("/updateUser", (req, res) => {
   });
 });
 
+router.post("/userInfo", (req, res) => {
+  console.log(req.body);
+
+  if (req.body.userData) {
+    User.findOne({ _id: req.body.userData._id }, (err, user) => {
+      if (err) return res.json({ success: false, err });
+
+      return res.status(200).send({ success: true, user });
+    });
+  }
+});
+
 router.post("/naver", function (req, res) {
   code = req.body.token;
   state = req.body.state;

@@ -1,16 +1,33 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 function Mypage() {
   const user = useSelector((state) => state.user);
-  const [ProfileImagePath, setProfileImagePath] = useState(user.userData.image);
-  const [NickName, setNickName] = useState(user.userData.name);
+
+  const [ProfileImagePath, setProfileImagePath] = useState("");
+  const [NickName, setNickName] = useState("");
   const [FilePath, setFilePath] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      axios
+        .post(process.env.REACT_APP_DB_HOST + "/api/users/userInfo", user)
+        .then((response) => {
+          if (response.data.success) {
+            setProfileImagePath(response.data.user.image);
+            setNickName(response.data.user.name);
+            //setBoardList(response.data.board);
+          } else {
+            alert("유저정보 로드 실패");
+          }
+        });
+    }
+  }, [user]);
 
   //닉네임 핸들러
   const onNamaHandler = (e) => {

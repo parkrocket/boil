@@ -2,11 +2,11 @@
   "name": "boil",
   "version": "1.0.0",
   "description": "보일러플레이트",
-  "main": "./server/index.js",
+ "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "backend": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "backend": "nodemon server/index.js",
+    "frontend": "npm run start --prefix client",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
   "author": "parkrocket",
