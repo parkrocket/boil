@@ -2,11 +2,12 @@
   "name": "boil",
   "version": "1.0.0",
   "description": "보일러플레이트",
- "main": "index.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
     "backend": "nodemon server/index.js",
     "frontend": "npm run start --prefix client",
+    "chat": "nodemon server/chat_server.js",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
   },
   "author": "parkrocket",
@@ -28,7 +29,8 @@
     "passport-naver": "^1.0.6",
     "react-icons": "^4.3.1",
     "request": "^2.88.2",
-    "sharp": "^0.29.3"
+    "sharp": "^0.29.3",
+    "socket.io": "^4.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

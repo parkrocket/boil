@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
+const io = require("socket.io");
 
 const mongoose = require("mongoose");
 const connect = mongoose
@@ -61,7 +62,11 @@ app.use("/api/like", require("./routes/likedislikes"));
 //게시판 라우터
 app.use("/api/board", require("./routes/board"));
 
+//에디터 라우터
 app.use("/api/board/editorimage", require("./routes/editorImage"));
+
+//채팅 라우터
+app.use("/api/chat", require("./routes/chat"));
 
 const port = process.env.PORT || 4000;
 
