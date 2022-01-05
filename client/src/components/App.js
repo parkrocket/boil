@@ -16,6 +16,8 @@ import Naver from "./views/LoginPage/Social/Naver";
 import BoardUploadPage from "./views/Board/BoardUploadPage/BoardUploadPage";
 import BoardListPage from "./views/Board/BoardListPage/BoardListPage";
 import BoardDetailPage from "./views/Board/BoardDetailPage/BoardDetailPage";
+import ChatPage from "./views/Chat/ChatPage";
+import ChatMain from "./views/Chat/ChatMain";
 
 function App() {
   // null => 아무나 출입 가능
@@ -35,6 +37,9 @@ function App() {
               path="/video/:videoId"
               element={Auth(VideoDetailPage, null)}
             />
+            <Route path="/chat" element={Auth(ChatMain, true)} />
+            <Route path="/chat/:roomId" element={Auth(ChatPage, true)} />
+
             <Route path="/board/upload" element={Auth(BoardUploadPage, true)} />
             <Route path="/board/list" element={Auth(BoardListPage, null)} />
             <Route

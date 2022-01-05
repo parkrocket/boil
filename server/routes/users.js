@@ -167,6 +167,14 @@ router.post("/userInfo", (req, res) => {
   }
 });
 
+router.get("/userInfoAll", (req, res) => {
+  User.find((err, users) => {
+    if (err) return res.json({ success: false, err });
+
+    return res.status(200).send({ success: true, users });
+  });
+});
+
 router.post("/naver", function (req, res) {
   code = req.body.token;
   state = req.body.state;

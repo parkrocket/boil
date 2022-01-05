@@ -28,9 +28,22 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("room", function (user_id) {
+    //I use the user_id of the user to create room
+    socket.join(user_id, () => {
+      console.log(user_id + "방입장");
+    });
+  });
+
   socket.on("send chat", (data) => {
-    console.log(data);
-    io.emit("receive chat", data);
+    console.log(data.room);
+    const msg = {
+      userId: data.userId,
+      userName: data.userName,
+      msg: data.msg,
+    };
+    console.log(msg);
+    io.to(data.room).emit("receive chat", msg);
   });
 
   socket.on("leave chatroom", (data) => {

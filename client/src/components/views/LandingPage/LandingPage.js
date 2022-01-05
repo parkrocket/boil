@@ -7,11 +7,14 @@ const socket = io(process.env.REACT_APP_CHAT_SERVER_HOST);
 function LandingPage() {
   const [ChatMsg, setChatMsg] = useState("");
   const [ChatList, setChatList] = useState([]);
+  const chat = "main";
 
   useEffect(() => {
+    socket.emit("room", chat);
     socket.on("receive chat", (data) => {
+      console.log(data);
       console.log("App.js Socket(receive chat) ", data);
-      setChatList((ChatList) => [...ChatList, data]);
+      setChatList((ChatList) => [...ChatList, data.msg]);
       //console.log("정보:", ChatList, data);
     });
   }, []);
@@ -22,7 +25,7 @@ function LandingPage() {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    socket.emit("send chat", { msg: ChatMsg });
+    socket.emit("send chat", { msg: ChatMsg, room: chat });
     setChatMsg("");
   };
   // console.log(ChatList);
