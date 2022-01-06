@@ -35,7 +35,8 @@ function LoginPage() {
         window.localStorage.setItem("userId", response.payload.userId);
         navigate("/");
       } else {
-        alert("Error");
+        console.log(response.payload);
+        alert(response.payload.message);
       }
     });
   };

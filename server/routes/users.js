@@ -156,8 +156,6 @@ router.post("/updateUser", (req, res) => {
 });
 
 router.post("/userInfo", (req, res) => {
-  console.log(req.body);
-
   if (req.body.userData) {
     User.findOne({ _id: req.body.userData._id }, (err, user) => {
       if (err) return res.json({ success: false, err });
@@ -165,6 +163,14 @@ router.post("/userInfo", (req, res) => {
       return res.status(200).send({ success: true, user });
     });
   }
+});
+
+router.post("/userOneInfo", (req, res) => {
+  User.findOne({ _id: req.body.userId }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+
+    return res.status(200).send({ success: true, user });
+  });
 });
 
 router.get("/userInfoAll", (req, res) => {

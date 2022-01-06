@@ -6,17 +6,37 @@
 }
 
 .chat_con {
-  margin-top: 100px;
+  margin-top: 50px;
   width: 350px;
 }
 
+.chat_head {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background: #222;
+  color: #fff;
+  height: 60px;
+  line-height: 60px;
+}
+
+.chat_head .exit_btn {
+  background: #222;
+  border: 0px;
+  height: 40px;
+}
+
 .chatwrap {
-  margin-top: 20px;
   background-color: #eee;
   height: 550px;
   padding: 25px 10px;
   width: 100%;
   overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+
+.chatwrap::-webkit-scrollbar {
+  display: none;
 }
 
 .chatwrap ul {

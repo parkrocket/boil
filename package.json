@@ -8,7 +8,7 @@
     "backend": "nodemon server/index.js",
     "frontend": "npm run start --prefix client",
     "chat": "nodemon server/chat_server.js",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
+    "dev": "concurrently \"npm run backend\" \"npm run chat\" \"npm run start --prefix client\""
   },
   "author": "parkrocket",
   "license": "ISC",
